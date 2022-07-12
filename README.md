@@ -1,5 +1,5 @@
 # tf-rediscloud-subscription-peering-aws
-Terraform to VPC peer a Redis Cloud subscription to your AWS VPC and add a route to the AWS VPC route table.
+Terraform to VPC peer an **existing** Redis Cloud subscription to your AWS VPC and add a route to the AWS VPC route table.
 
 # Download Terraform: (Mac OS)
 Download Terraform
