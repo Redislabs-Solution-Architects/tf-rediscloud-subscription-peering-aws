@@ -7,11 +7,6 @@ data "aws_vpc_peering_connection" "pc" {
   depends_on = [aws_vpc_peering_connection_accepter.example-peering]
 }
 
-## if you want to see the output of the sub id
-output "aws_vpc_peering_connection" {
-  value = data.aws_vpc_peering_connection.pc.id
-}
-
 # Create a route
 resource "aws_route" "r" {
   route_table_id            = var.aws_vpc_route_table_id

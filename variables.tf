@@ -30,11 +30,6 @@ variable "aws_customer_application_vpc_cidr" {
 
 ### AWS TERRAFORM PROVIDER
 
-variable "aws_vpc_region" {
-    description = "AWS region"
-    default = "us-east-1"
-}
-
 variable "aws_creds" {
     description = "Access key and Secret key for AWS [Access Keys, Secret Key]"
 }

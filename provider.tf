@@ -20,7 +20,7 @@ provider "rediscloud" {
 ## AWS TF PROVIDER
 # AWS region and AWS key pair
 provider "aws" {
-  region = var.aws_vpc_region
+  region = var.aws_customer_application_vpc_region
   access_key = var.aws_creds[0]
   secret_key = var.aws_creds[1]
 }
