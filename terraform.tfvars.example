@@ -8,7 +8,7 @@ aws_creds =
 
 ### prefix to all AWS resources
 ### example: prefix_name = "redis-user"
-prefix_name = "bamos"
+prefix_name = 
 
 #### VPC CIDR for VPC
 #### example: vpc_cidr = "10.0.0.0/16"

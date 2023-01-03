@@ -135,7 +135,7 @@ data "rediscloud_payment_method" "card" {
 
 resource "rediscloud_subscription" "example" {
 
-  name = "redis-user-sub"
+  name = "redis-user-sub1"
   payment_method = "credit-card"
   payment_method_id = data.rediscloud_payment_method.card.id
   memory_storage = "ram"

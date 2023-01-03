@@ -1,5 +1,5 @@
 # tf-rediscloud-subscription-peering-aws
-Create a Redis Cloud on AWS Subscription and Database and VPC peer subscription to customer AWS VPC.
+Create a Redis Cloud on AWS Subscription and Database and VPC peer subscription to customer AWS VPC using the Redis Cloud Terraform Provider. ([link](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs))
 
 
 # Overview
