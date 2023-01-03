@@ -10,6 +10,7 @@ If you would like to use an existing AWS VPC you will need to comment out the AW
 
 The repo is made as simple as possible with most of the variables hardcoded in.
 
+# Getting Started: Create a Redis Cloud subscription from Terraform
 
 #### Prerequisites
 * aws account
