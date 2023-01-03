@@ -1,23 +1,44 @@
 
-# Access key and Secret key for Redis Cloud account [REDISCLOUD_ACCESS_KEY, REDISCLOUD_SECRET_KEY] 
-rediscloud_creds = ["aafdlkdfjal","fdfadsadjkl"]
+#### AWS Variables
 
-# redis cloud subscription name
-rediscloud_subscription_name = "sub-name-test"
+#### User Input Required
+#### Access key and Secret key for aws account [AWS_ACCESS_KEY, AWS_SECRET_KEY]
+#### (fake example: aws_creds = ["myAccesssKeyxjdklfdakf","MySecretKeyxkldkfhadjkfh"]) 
+aws_creds = 
 
-# subscription peering Redis Cloud
-rediscloud_networking_deployment_cidr = "10.1.0.0/24"
+### prefix to all AWS resources
+### example: prefix_name = "redis-user"
+prefix_name = "bamos"
 
-#### AWS Customer Account Information ###
-
-# subscription peering AWS
-aws_customer_application_vpc_region = "us-east-1"
-aws_customer_application_aws_account_id = "111111111111"
-aws_customer_application_vpc_id = "vpc-0cdfklafjlks"
+#### VPC CIDR for VPC
+#### example: vpc_cidr = "10.0.0.0/16"
 aws_customer_application_vpc_cidr = "10.0.0.0/16"
 
-# Access key and Secret key for aws account [AWS_ACCESS_KEY, AWS_SECRET_KEY] 
-aws_creds = ["ddfadfaaf","dafdsfadfaadfd"]
+#### Subnet CIDR Block
+#### example: subnet_cidr_blocks = "10.0.0.0/24"
+subnet_cidr_block = "10.0.1.0/24"
 
-# The customer account AWS VPC main route table ID
-aws_vpc_route_table_id = "rtb-034342fggfds"
+
+############################################################ Subscription Peering Redis Cloud Variables
+
+# Customer AWS Account ID
+#### fake example: aws_customer_application_aws_account_id = "1111111111"
+aws_customer_application_aws_account_id = 
+
+############################################################ Redis Cloud Subscription Variables
+
+# Access key and Secret key for Redis Cloud account [REDISCLOUD_ACCESS_KEY, REDISCLOUD_SECRET_KEY]
+#### (fake example: rediscloud_creds = ["myAccesssKeyxjdklfdakf","MySecretKeyxkldkfhadjkfh"]) 
+rediscloud_creds = 
+
+# credit card type
+#### example: cc_type = "Visa"
+cc_type = 
+
+# Last 4 digits for payment method
+#### fake example: cc_last_4 = "1234"
+cc_last_4 = 
+
+# Redis Cloud Subscription CIDR (must not overlap AWS Applicaiton VPC CIDR)
+#### example: rc_networking_deployment_cidr = "10.1.0.0/24"
+rc_networking_deployment_cidr = "10.1.0.0/24"
