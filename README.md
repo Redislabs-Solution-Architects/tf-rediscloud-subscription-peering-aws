@@ -72,7 +72,7 @@ provider "aws" {
 ## Step 3: Update hardcoded values in `main.tf`
 
 Many of the hardcoded values do not need to change. But feel free to update them as desired.
-There are a few that much be updated. Please see below:
+There are a few that require updating. Please see below:
 
 ### rediscloud_payment_method
 Update the the info in the resource block
@@ -134,10 +134,11 @@ If you have an existing AWS VPC you would like to peer then you will need to mak
 
 1. Comment out the AWS VPC resource blocks
 
-Comment out the following in `main.tf`:
+Comment out the following in `main.tf` from *COMMENT SECTION OUT IF YOU WANT TO USE EXISTING AWS VPC (START)* to * COMMENT SECTION OUT IF YOU WANT TO USE EXISTING AWS VPC (END)*:
 ```
 ############################################### AWS VPC
 ###### The customer application VPC in the customers AWS account
+#### COMMENT SECTION OUT IF YOU WANT TO USE EXISTING AWS VPC (START)
 
 #### Create the VPC
 resource "aws_vpc" "vpc" {
@@ -203,6 +204,7 @@ output "route-table-id" {
   description = "route table id"
   value = aws_default_route_table.route_table.id
 }
+#### COMMENT SECTION OUT IF YOU WANT TO USE EXISTING AWS VPC (END)
 ```
 
 Now terraform will not provision a new VPC.
