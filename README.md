@@ -210,7 +210,7 @@ output "route-table-id" {
 Now terraform will not provision a new VPC.
 Now you will need to update the variable values in the `Redis Cloud VPC Peering` section
 
-Please update the values with the **#UPDATE WITH EXISTING AWS VPC ...**
+Please update the values that show a note saying: *#UPDATE WITH EXISTING AWS VPC*
 ```
 ############################################  Redis Cloud Subscription peering
 
