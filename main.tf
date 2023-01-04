@@ -16,8 +16,8 @@ terraform {
 #### AWS region and AWS key pair
 provider "aws" {
   region     = "us-east-1"
-  access_key = var.aws_creds[0]
-  secret_key = var.aws_creds[1]
+  access_key = "myAWSAccesssKeyxjdklfdakf" #AWS_ACCESS_KEY (USER INPUT ADJUSTMENT REQUIRED)
+  secret_key = "MyAWSSecretKeyxkldkfhadjkfh" #AWS_SECRET_KEY (USER INPUT ADJUSTMENT REQUIRED)
 }
 
 
@@ -25,33 +25,34 @@ provider "aws" {
 #### go to your Redis Cloud Account >  Access Managment > API Keys > 
 #### create new API Key (this gives you the secret key, the API_key is the API account key)
 provider "rediscloud" {
-    api_key = var.rediscloud_creds[0]
-    secret_key = var.rediscloud_creds[1]
+    api_key = "myRedisAccesssKeyxjdklfdakf" #REDIS_CLOUD_ACCESS_KEY (USER INPUT ADJUSTMENT REQUIRED)
+    secret_key = "MyRedisSecretKeyxkldkfhadjkfh" #REDIS_CLOUD_SECRET_KEY (USER INPUT ADJUSTMENT REQUIRED)
 }
 
 
 ############################################### AWS VPC
+###### The customer application VPC in the customers AWS account
+#### COMMENT SECTION OUT IF YOU WANT TO USE EXISTING AWS VPC (START)
 
 #### Create the VPC
 resource "aws_vpc" "vpc" {
-  cidr_block = var.aws_customer_application_vpc_cidr
+  cidr_block = "10.0.0.0/16" #AWS VPC CIDR
   enable_dns_support          = true
   enable_dns_hostnames        = true
 
   tags = {
-    Name = format("%s-%s-vpc", var.prefix_name, "us-east-1"),
-    Project = format("%s-%s", var.prefix_name, "us-east-1"),
-    Owner = var.prefix_name
+    Name = "my-app-vpc-us-east-1",
+    Owner = "redisuser@redis.com"
   }
 }
 
 #### Create the subnets
 resource "aws_subnet" "subnet" {
   vpc_id = aws_vpc.vpc.id
-  cidr_block = var.subnet_cidr_block
+  cidr_block = "10.0.1.0/24"
   availability_zone = "us-east-1a"
   tags = {
-    Name = format("%s-subnet", var.prefix_name)
+    Name = "my-app-vpc-subnet"
   }
 }
 
@@ -60,10 +61,9 @@ resource "aws_subnet" "subnet" {
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc.id
   tags = {
-    Name = format("%s-igw", var.prefix_name),
-    Project = format("%s-%s", var.prefix_name, "us-east-1"),
-    Owner = var.prefix_name
-    }
+    Name = "my-app-vpc-igw",
+    Owner = "redisuser@redis.com"
+  }
 }
 
 #### Create the default route table
@@ -73,11 +73,9 @@ resource "aws_default_route_table" "route_table" {
       cidr_block = "0.0.0.0/0"
       gateway_id = aws_internet_gateway.igw.id
     }
-
   tags = {
-    Name = format("%s-rt", var.prefix_name),
-    Project = format("%s-%s", var.prefix_name, "us-east-1"),
-    Owner = var.prefix_name
+    Name = "my-app-vpc-rt",
+    Owner = "redisuser@redis.com"
   }
 }
 
@@ -96,15 +94,11 @@ output "vpc-id" {
   value = aws_vpc.vpc.id
 }
 
-output "vpc-name" {
-  description = "get all tags, get the Project Name tag for the VPC"
-  value = aws_vpc.vpc.tags_all.Project
-}
-
 output "route-table-id" {
   description = "route table id"
   value = aws_default_route_table.route_table.id
 }
+#### COMMENT SECTION OUT IF YOU WANT TO USE EXISTING AWS VPC (END)
 
 
 ############################################### Redis Cloud Account Information
@@ -129,8 +123,8 @@ output "cloud_account_access_key_id" {
 ############################################### Redis Cloud Subscription
 
 data "rediscloud_payment_method" "card" {
-  card_type = var.cc_type
-  last_four_numbers = var.cc_last_4
+  card_type = "Visa"
+  last_four_numbers = "1234" #last 4 digits of cc (USER INPUT ADJUSTMENT REQUIRED)
 }
 
 resource "rediscloud_subscription" "example" {
@@ -145,7 +139,7 @@ resource "rediscloud_subscription" "example" {
     cloud_account_id = data.rediscloud_cloud_account.account.id
     region {
       region = "us-east-1"
-      networking_deployment_cidr = var.rc_networking_deployment_cidr
+      networking_deployment_cidr = "10.1.0.0/24" #Redis Cloud Subscription CIDR (Must not overlap with customer AWS VPC CIDR!)
       preferred_availability_zones = ["us-east-1a","us-east-1b","us-east-1c"]
       multiple_availability_zones  = true
     }
@@ -208,9 +202,9 @@ resource "rediscloud_subscription_database" "example" {
 resource "rediscloud_subscription_peering" "example" {
    subscription_id = rediscloud_subscription.example.id
    region = "us-east-1"
-   aws_account_id = var.aws_customer_application_aws_account_id
+   aws_account_id = "123456789012" #Customer AWS Account ID (12 digits) (USER INPUT ADJUSTMENT REQUIRED)
    vpc_id = aws_vpc.vpc.id
-   vpc_cidr = var.aws_customer_application_vpc_cidr
+   vpc_cidr = "10.0.0.0/16" #Customer AWS VPC CIDR (matches the AWS VPC Resource VPC CIDR)
 
    depends_on = [
     rediscloud_subscription.example
@@ -225,7 +219,6 @@ resource "aws_vpc_peering_connection_accepter" "example-peering" {
 
 ### AWS Terrafrom to add route table in customer AWS environment
 ### ADD ROUTE TABLE ROUTE
-
 
 # Declare the data source
 data "aws_vpc_peering_connection" "pc" {
@@ -242,6 +235,6 @@ output "aws_vpc_peering_connection" {
 # Create a route
 resource "aws_route" "r" {
   route_table_id            = aws_default_route_table.route_table.id
-  destination_cidr_block    = var.rc_networking_deployment_cidr
+  destination_cidr_block    = "10.1.0.0/24" # Redis Cloud Subscription CIDR
   vpc_peering_connection_id = data.aws_vpc_peering_connection.pc.id
 }
