@@ -134,7 +134,7 @@ If you have an existing AWS VPC you would like to peer then you will need to mak
 
 1. Comment out the AWS VPC resource blocks
 
-Comment out the following in `main.tf` from *COMMENT SECTION OUT IF YOU WANT TO USE EXISTING AWS VPC (START)* to * COMMENT SECTION OUT IF YOU WANT TO USE EXISTING AWS VPC (END)*:
+Comment out the following in `main.tf` from *COMMENT SECTION OUT IF YOU WANT TO USE EXISTING AWS VPC (START)* to *COMMENT SECTION OUT IF YOU WANT TO USE EXISTING AWS VPC (END)* :
 ```
 ############################################### AWS VPC
 ###### The customer application VPC in the customers AWS account
