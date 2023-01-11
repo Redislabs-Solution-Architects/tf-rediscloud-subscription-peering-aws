@@ -139,7 +139,7 @@ resource "rediscloud_subscription" "example" {
     cloud_account_id = data.rediscloud_cloud_account.account.id
     region {
       region = "us-east-1"
-      networking_deployment_cidr = "10.1.0.0/24" #Redis Cloud Subscription CIDR (Must not overlap with customer AWS VPC CIDR!)
+      networking_deployment_cidr = "10.1.0.0/24" #Redis Cloud Subscription CIDR (MUST BE /24), (Must not overlap with customer AWS VPC CIDR!)
       preferred_availability_zones = ["us-east-1a","us-east-1b","us-east-1c"]
       multiple_availability_zones  = true
     }
@@ -148,7 +148,7 @@ resource "rediscloud_subscription" "example" {
   // This block needs to be defined for provisioning a new subscription.
   // This allows creating a well-optimised hardware specification for databases in the cluster
   creation_plan {
-    average_item_size_in_bytes = 1
+    #average_item_size_in_bytes = 1
     memory_limit_in_gb = 25
     quantity = 1
     replication= true
@@ -223,6 +223,8 @@ resource "aws_vpc_peering_connection_accepter" "example-peering" {
 # Declare the data source
 data "aws_vpc_peering_connection" "pc" {
   peer_vpc_id = aws_vpc.vpc.id
+  peer_cidr_block =  "10.0.0.0/16" #AWS Customer VPC CIDR block
+  cidr_block      = "10.1.0.0/24" #Redis Cloud Subscription VPC CIDR block
   status = "active"
   depends_on = [aws_vpc_peering_connection_accepter.example-peering]
 }
